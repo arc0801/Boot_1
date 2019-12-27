@@ -25,7 +25,7 @@ class MemberTest {
 		assertEquals(1, result);
 	}
 
-	@Test
+	//@Test
 	void loginTest() throws Exception {
 		MemberVO memberVO = new MemberVO();
 		memberVO.setId("a");
