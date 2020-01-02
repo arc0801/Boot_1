@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.arc.b1.member.MemberMapper">
+	<insert id="memberJoin" parameterType="com.arc.b1.member.MemberVO">
+		insert into members values(#{id}, #{pw}, #{name}, #{email})
+	</insert>
+	
+	<resultMap type="com.arc.b1.member.MemberVO" id="Login">
+		<id column="id" property="id"/>
+		<result column="pw" property="pw"/>
+		<result column="name" property="name"/>
+		<result column="email" property="email"/>
+		<association property="memberFilesVO" javaType="com.arc.b1.member.MemberFilesVO">
+			<id column="fnum" property="fnum"/>
+			<result column="fname" property="fname"/>
+			<result column="oname" property="oname"/>
+		</association>
+	</resultMap>
+	
+	<select id="memberLogin" resultMap="Login" parameterType="com.arc.b1.member.MemberVO">
+		select *
+		from members m inner join memberFiles f
+		on m.id = f.id
+		where m.id=#{id} and m.pw=#{pw}
+	</select>
+</mapper>
