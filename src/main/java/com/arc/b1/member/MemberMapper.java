@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface MemberMapper {
 	//interface이기 때문에 namespace를 DAO의 클래스명을 Mapper의 이름과 동일하게
+	public MemberVO memberIdCheck(MemberVO memberVO) throws Exception;
 	
 	public int memberJoin(MemberVO memberVO) throws Exception;
 	

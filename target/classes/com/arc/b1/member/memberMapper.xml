@@ -4,6 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.arc.b1.member.MemberMapper">
+	<select id="memberIdCheck" resultType="com.arc.b1.member.MemberVO" parameterType="com.arc.b1.member.MemberVO">
+		select id from members where id=#{id}
+	</select>
+	
 	<insert id="memberJoin" parameterType="com.arc.b1.member.MemberVO">
 		insert into members values(#{id}, #{pw}, #{name}, #{email})
 	</insert>

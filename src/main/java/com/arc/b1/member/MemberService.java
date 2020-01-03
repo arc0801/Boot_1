@@ -7,6 +7,7 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.arc.b1.util.FilePathGenerator;
@@ -26,6 +27,34 @@ public class MemberService {
 	private FileSaver fileSaver;
 	@Autowired
 	private MemberFilesMapper memberFilesMapper;
+	
+	
+	public boolean memberJoinValidate(MemberVO memberVO, BindingResult bindingResult) throws Exception {
+		boolean check = false; //true-에러, false-통과
+		
+		//annotation 검증 결과물
+		if(bindingResult.hasErrors()) {
+			check = true;
+		}
+		
+		//pw = pw2인지 검증
+		if(!memberVO.getPw().equals(memberVO.getPw2())) {
+			check = true;
+			bindingResult.rejectValue("pw2", "memberVO.pw.notEqual");
+									//form의 path명, properties의 키
+		}
+		
+		//id 중복 검사
+		if(!memberVO.getId().equals("")) {
+		
+			if(memberMapper.memberIdCheck(memberVO) != null) {
+				check = true;
+				bindingResult.rejectValue("id", "memberVO.id.AssertFalse");
+			}
+		}
+		
+		return check;
+	}
 	
 	public MemberFilesVO memberFilesSelect(MemberFilesVO memberFilesVO) throws Exception {
 		return memberFilesMapper.memberFilesSelect(memberFilesVO);

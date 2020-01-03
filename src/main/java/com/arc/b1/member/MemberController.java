@@ -1,12 +1,17 @@
 package com.arc.b1.member;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -54,7 +59,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("memberLogin")
-	public ModelAndView memberLogin(MemberVO memberVO, HttpSession session) throws Exception {
+	public ModelAndView memberLogin(@SessionAttribute MemberVO memberVO, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
 		memberVO = memberService.memberLogin(memberVO);
@@ -72,26 +77,49 @@ public class MemberController {
 		return mv;
 	}
 	
+	@ModelAttribute
+	public MemberVO getMemberVO() throws Exception {
+		//매개변수에 MemberVO memberVO 안쓰고, 모든 메서드에 집어넣겠다
+		return new MemberVO();
+	}
+	
 	@GetMapping("memberJoin")
 	public String memberJoin() throws Exception {
+		//매개변수에 MemberVO memberVO를 넣어주면 이것과 같은 말이다. 암시적으로~. 밑에 거 참고.
+		//MemberVO memberVo = new MemberVO();
+		//model.addAttribute("memberVO", memberVO);
+		
 		return "member/memberJoin";
 	}
 	
+	//@GetMapping("memberJoin")
+	//public String memberJoin(Model model) throws Exception {
+	//	model.addAttribute("memberVO", new MemberVO());
+	//	
+	//	return "member/memberJoin";
+	//}
+	
 	@PostMapping("memberJoin")
-	public ModelAndView memberJoin(MemberVO memberVO, MultipartFile files) throws Exception {
+	public ModelAndView memberJoin(@Valid MemberVO memberVO, BindingResult bindingResult, MultipartFile files) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		int result = memberService.memberJoin(memberVO, files);
-		String msg = "Join Fail";
-		String path = "../";
 		
-		if(result>0) {
-			msg = "Join Success";
+		if(memberService.memberJoinValidate(memberVO, bindingResult)) {
+		//if(bindingResult.hasErrors()) {
+			mv.setViewName("member/memberJoin");
+		}else {
+		
+			int result = memberService.memberJoin(memberVO, files);
+			String msg = "Join Fail";
+			String path = "../";
+			
+			if(result>0) {
+				msg = "Join Success";
+			}
+			mv.setViewName("common/result");
+			mv.addObject("msg", msg);
+			mv.addObject("path", path);
+		
 		}
-		mv.setViewName("common/result");
-		mv.addObject("msg", msg);
-		mv.addObject("path", path);
-		
 		return mv;
-		
 	}
 }
