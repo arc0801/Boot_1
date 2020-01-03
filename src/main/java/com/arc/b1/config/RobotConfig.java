@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import com.arc.b1.robot.LeftArm;
 import com.arc.b1.robot.RightArm;
 
-@Configuration //spring이 객체를 만드려는 게 아니라 xml파일이라고 인식
+@Configuration //spring이 객체를 만드려는 게 아니라 xml 파일이라고 인식
 public class RobotConfig {
 
 	@Bean("left")
