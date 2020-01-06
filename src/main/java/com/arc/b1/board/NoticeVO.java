@@ -1,10 +1,13 @@
-package com.arc.b1.notice;
+package com.arc.b1.board;
 
 import java.util.Date;
+
+import javax.validation.constraints.NotEmpty;
 
 public class NoticeVO {
 
 	private int num;
+	@NotEmpty//(message = "Title을 작성해주세요")
 	private String title;
 	private String writer;
 	private String contents;

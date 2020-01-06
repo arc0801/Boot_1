@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.arc.b1.board.NoticeFilesMapper">
+	<!-- <insert id="noticeFilesInsert" parameterType="com.arc.b1.board.NoticeFilesVO">
+		insert into noticeFiles(num, fname, oname) values(#{num}, #{fname}, #{oname})
+	</insert> -->
+	
+	<insert id="noticeFilesInsert" parameterType="java.util.List">
+		insert into noticeFiles
+		values <foreach collection="java.util.List" item="item" separator=",">
+			(null, #{item.num}, #{item.fname}, #{item.oname})
+		</foreach>
+	</insert>
+</mapper>

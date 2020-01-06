@@ -9,7 +9,7 @@
 	</select>
 	
 	<insert id="memberJoin" parameterType="com.arc.b1.member.MemberVO">
-		insert into members values(#{id}, #{pw}, #{name}, #{email})
+		insert into members values(#{id}, #{pw}, #{name}, #{email}, #{grade})
 	</insert>
 	
 	<resultMap type="com.arc.b1.member.MemberVO" id="Login">
@@ -17,6 +17,7 @@
 		<result column="pw" property="pw"/>
 		<result column="name" property="name"/>
 		<result column="email" property="email"/>
+		<result column="grade" property="grade"/>
 		<association property="memberFilesVO" javaType="com.arc.b1.member.MemberFilesVO">
 			<id column="fnum" property="fnum"/>
 			<result column="fname" property="fname"/>

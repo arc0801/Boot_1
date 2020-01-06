@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper와 dao의 위치가 다를 시 application.properties에 위치를 알려줘야 함 -->
+<mapper namespace="com.arc.b1.board.NoticeMapper">
+	<insert id="noticeWrite" parameterType="com.arc.b1.board.NoticeVO" useGeneratedKeys="true" keyProperty="num">
+		insert into notice values(#{num}, #{title}, #{writer}, #{contents}, now(), 0)
+	</insert>
+	
+	<select id="noticeList" parameterType="com.arc.b1.util.Pager" resultType="com.arc.b1.board.NoticeVO">
+		select * from notice
+		where num > 0 <!-- primary key는 index를 가지고 있기 때문에 where 조건을 줌으로써 order by 하기 전에 정렬되어 넘어와 속도 향상의 기능!! -->
+		order by num desc LIMIT #{startRow}, #{perPage}
+	</select>
+	
+	<select id="noticeCount" resultType="java.lang.Integer" parameterType="com.arc.b1.util.Pager">
+		select count(num) from notice
+	</select>
+	
+	<resultMap type="com.arc.b1.board.NoticeVO" id="Select">
+		<id column="num" property="num"/>
+		<result column="title" property="title"/>
+		<result column="writer" property="writer"/>
+		<result column="contents" property="contents"/>
+		<result column="regDate" property="regDate"/>
+		<result column="hit" property="hit"/>
+		<association property="noticeFilesVO" javaType="com.arc.b1.board.NoticeFilesVO">
+			<id column="fnum" property="fnum"/>
+			<result column="fname" property="fname"/>
+			<result column="oname" property="oname"/>
+		</association>
+	</resultMap>
+	
+	<select id="noticeSelect" resultMap="Select" parameterType="com.arc.b1.board.NoticeVO">
+		select * from notice N left outer join noticeFiles F
+		on N.num = F.num
+		where N.num = #{num}
+	</select>
+</mapper>

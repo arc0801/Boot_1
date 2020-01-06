@@ -45,6 +45,11 @@
 	    </div>
 	    
 	    <div class="form-group">
+	      <label for="grade">Grade:</label>
+	      <form:input path="grade" class="form-control" id="grade" placeholder="Enter Grade" />
+	    </div>
+	    
+	    <div class="form-group">
 	      <label for="files">File:</label>
 	      <input type="file" class="form-control" id="files" name="files">
 	    </div>

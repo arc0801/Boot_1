@@ -1,4 +1,4 @@
-package com.arc.b1.notice;
+package com.arc.b1.board;
 
 public class NoticeFilesVO {
 

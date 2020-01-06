@@ -19,11 +19,19 @@ public class MemberVO {
 	private String name;
 	@Email
 	private String email;
+	private int grade;
 	
 	private MemberFilesVO memberFilesVO;
 	
 	
 	
+	
+	public int getGrade() {
+		return grade;
+	}
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
 	public String getPw2() {
 		return pw2;
 	}

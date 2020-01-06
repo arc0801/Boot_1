@@ -59,7 +59,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("memberLogin")
-	public ModelAndView memberLogin(@SessionAttribute MemberVO memberVO, HttpSession session) throws Exception {
+	public ModelAndView memberLogin(/*@SessionAttribute */MemberVO memberVO, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
 		memberVO = memberService.memberLogin(memberVO);
